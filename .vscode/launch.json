@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "amazom_prime_login_ui",
+            "cwd": "Getting Start Flutter\\amazom_prime_login_ui",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "amazom_prime_login_ui (profile mode)",
+            "cwd": "Getting Start Flutter\\amazom_prime_login_ui",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "amazom_prime_login_ui (release mode)",
+            "cwd": "Getting Start Flutter\\amazom_prime_login_ui",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "login",
+            "cwd": "Getting Start Flutter\\login",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "login (profile mode)",
+            "cwd": "Getting Start Flutter\\login",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "login (release mode)",
+            "cwd": "Getting Start Flutter\\login",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

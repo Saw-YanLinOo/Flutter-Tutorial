@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           width: 150,
           height: 75,
           child: Image.asset(
@@ -229,32 +229,31 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const Expanded(
-              child: Center(
-            child: Text(
-              '@ 1996-2021, Amazon.com, Inc. or its affiliates',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-              ),
-            ),
-          )),
-          Positioned(
-            bottom: 0.0,
+          const Flexible(
+            fit: FlexFit.loose,
             child: Center(
-              child: Container(
-                width: 100,
-                height: 5,
-                margin: const EdgeInsets.only(
-                  bottom: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+              child: Text(
+                '@ 1996-2021, Amazon.com, Inc. or its affiliates',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
                 ),
               ),
             ),
-          )
+          ),
+          Center(
+            child: Container(
+              width: 100,
+              height: 5,
+              margin: const EdgeInsets.only(
+                bottom: 5,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
         ]),
       ),
     );
