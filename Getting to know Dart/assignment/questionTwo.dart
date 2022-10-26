@@ -21,7 +21,7 @@ void main() {
   // });
 
   total = map.values
-      .where((element) => element > 10000)
+      .where((element) => element >= 10000)
       .reduce((value, element) => value + element);
 
   print(total);

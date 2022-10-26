@@ -5,7 +5,7 @@ void main() {
 
 bool emailValidate(String email) {
   if (email.contains('@gmail.com')) {
-    if (email.endsWith('@gmail.com') || !email.startsWith('@gmail.com')) {
+    if (email.endsWith('@gmail.com') && !email.startsWith('@gmail.com')) {
       return true;
     }
   }

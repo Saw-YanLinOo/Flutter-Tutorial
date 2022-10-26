@@ -10,5 +10,6 @@ void main() {
     '8': 8,
   };
 
-  print(map.values.where((element) => element != null).toString());
+  map.removeWhere((key, value) => value == null);
+  print(map.keys.toList().join(','));
 }
