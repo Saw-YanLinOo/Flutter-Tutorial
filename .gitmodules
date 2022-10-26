@@ -1,0 +1,3 @@
+[submodule "movie_booking_app"]
+	path = movie_booking_app
+	url = ./movie_booking_app
