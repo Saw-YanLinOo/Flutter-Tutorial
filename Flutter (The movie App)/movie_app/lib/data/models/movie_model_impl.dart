@@ -148,11 +148,11 @@ class MovieModelImpl extends MovieModel {
   @override
   void getMovieDetails(int movieId) {
     mDataAgent.getMovieDetails(movieId).then((movie) {
-      var mMovie = mMovieDao.getMovieById(movieId);
+      var dMovie = mMovieDao.getMovieById(movieId);
 
-      movie?.isNowPlaying = mMovie?.isNowPlaying;
-      movie?.isPopular = mMovie?.isPopular;
-      movie?.isTopRated = mMovie?.isTopRated;
+      movie?.isNowPlaying = dMovie?.isNowPlaying;
+      movie?.isPopular = dMovie?.isPopular;
+      movie?.isTopRated = dMovie?.isTopRated;
 
       mMovieDao.saveSingleMovie(movie ?? MovieVO());
 
