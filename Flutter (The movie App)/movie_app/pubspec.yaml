@@ -45,6 +45,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   stream_transform: ^2.0.1
+  scoped_model: ^2.0.0
 
 
 dev_dependencies:
