@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                 builder: (context, child, model) {
                   return BannerSectionView(
                     onTapBanner: (movie) {
-                      _navigateToMovieDetailScreen(context, movie.id);
+                      _navigateToMovieDetailScreen(context, movie.id, model);
                     },
                     mPopularMovies: model.mPopularMoviesList?.take(3).toList(),
                   );
@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
                   return BestPopularMovieAndSerialsSectionView(
                     mNowPlayingMovieList: model.mNowPlayingMovieList,
                     (movieId) {
-                      _navigateToMovieDetailScreen(context, movieId);
+                      _navigateToMovieDetailScreen(context, movieId, model);
                     },
                   );
                 },
@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
                     generalList: model.mGenerList,
                     mMoviesByGeneralList: model.mMovieByGenreList,
                     onTapMovie: (movieId) =>
-                        _navigateToMovieDetailScreen(context, movieId),
+                        _navigateToMovieDetailScreen(context, movieId, model),
                     onTapGenre: (genreId) {
                       // debugPrint('genreId :::: $genreId');
                       //_getMoviesByGenreAndRefresh(genreId ?? 0);
@@ -125,13 +125,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _navigateToMovieDetailScreen(BuildContext context, int? movieId) {
+  void _navigateToMovieDetailScreen(
+      BuildContext context, int? movieId, MovieModelImpl model) {
+    model.getMovieDetails(movieId ?? 0);
+    model.getCreditsByMovie(movieId ?? 0);
+    model.getMovieDetailsFromDatabase(movieId ?? 0);
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => MovieDetailsPage(
-          movieId: movieId ?? 0,
-        ),
+        builder: (_) => const MovieDetailsPage(),
       ),
     );
   }

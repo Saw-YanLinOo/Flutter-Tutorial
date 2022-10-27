@@ -36,13 +36,18 @@ class MovieModelImpl extends MovieModel {
   GenreDao mgenreDao = GenreDao();
   ActorDao mActorDao = ActorDao();
 
-  //State
+  // Home Page State
   List<MovieVO>? mNowPlayingMovieList;
   List<MovieVO>? mPopularMoviesList;
   List<GenreVO>? mGenerList;
   List<ActorVO>? mActors;
   List<MovieVO>? mShowCaseMoveList;
   List<MovieVO>? mMovieByGenreList;
+
+  // Movie Detail State
+  MovieVO? mMovie;
+  List<CreditVO>? mActorsList;
+  List<CreditVO>? mCreatorsList;
 
   @override
   void getNowPlayingMovie(int page) {
@@ -130,13 +135,19 @@ class MovieModelImpl extends MovieModel {
   }
 
   @override
-  Future<List<CreditVO>?> getCreditsByMovie(int movieId) {
-    return mDataAgent.getCreditsByMovie(movieId);
+  void getCreditsByMovie(int movieId) {
+    mDataAgent.getCreditsByMovie(movieId).then((creditList) {
+      mActorsList = creditList?.where((credit) => credit.isActor()).toList();
+
+      mCreatorsList =
+          creditList?.where((credit) => credit.isCreator()).toList();
+      notifyListeners();
+    });
   }
 
   @override
-  Future<MovieVO?> getMovieDetails(int movieId) {
-    return mDataAgent.getMovieDetails(movieId).then((movie) {
+  void getMovieDetails(int movieId) {
+    mDataAgent.getMovieDetails(movieId).then((movie) {
       var mMovie = mMovieDao.getMovieById(movieId);
 
       movie?.isNowPlaying = mMovie?.isNowPlaying;
@@ -144,7 +155,9 @@ class MovieModelImpl extends MovieModel {
       movie?.isTopRated = mMovie?.isTopRated;
 
       mMovieDao.saveSingleMovie(movie ?? MovieVO());
-      return movie;
+
+      mMovie = movie;
+      notifyListeners();
     });
   }
 
@@ -201,7 +214,8 @@ class MovieModelImpl extends MovieModel {
   }
 
   @override
-  Future<MovieVO?> getMovieDetailsFromDatabase(int movieId) {
-    return Future.value(mMovieDao.getMovieById(movieId));
+  void getMovieDetailsFromDatabase(int movieId) {
+    mMovie = mMovieDao.getMovieById(movieId);
+    notifyListeners();
   }
 }
