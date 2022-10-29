@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/data/models/movie_model.dart';
-import 'package:movie_app/data/models/movie_model_impl.dart';
-import 'package:movie_app/data/vos/credit_vo.dart';
+import 'package:movie_app/bloc/movie_detail_bloc.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/colors.dart';
@@ -11,108 +9,80 @@ import 'package:movie_app/widgets/actor_and_creater_section_view.dart';
 import 'package:movie_app/widgets/gradient_view.dart';
 import 'package:movie_app/widgets/rating_view.dart';
 import 'package:movie_app/widgets/title_text.dart';
+import 'package:provider/provider.dart';
 
-class MovieDetailsPage extends StatefulWidget {
+class MovieDetailsPage extends StatelessWidget {
   const MovieDetailsPage({Key? key, required this.movieId}) : super(key: key);
 
   final int movieId;
 
   @override
-  State<MovieDetailsPage> createState() => _MovieDetailsPageState();
-}
-
-class _MovieDetailsPageState extends State<MovieDetailsPage> {
-  MovieModel mMovieModel = MovieModelImpl();
-
-  MovieVO? mMovie;
-  List<CreditVO>? mActorsList;
-  List<CreditVO>? mCreatorsList;
-
-  @override
-  void initState() {
-    super.initState();
-
-    debugPrint('movie id :: ${widget.movieId}');
-
-    // Movie Details
-    mMovieModel.getMovieDetails(widget.movieId).then((movie) {
-      mMovie = movie;
-      setState(() {});
-    });
-    // Movie Details from database
-    mMovieModel.getMovieDetailsFromDatabase(widget.movieId).then((movie) {
-      mMovie = movie;
-      setState(() {});
-    });
-
-    mMovieModel.getCreditsByMovie(widget.movieId).then((creditList) {
-      mActorsList = creditList?.where((credit) => credit.isActor()).toList();
-
-      mCreatorsList =
-          creditList?.where((credit) => credit.isCreator()).toList();
-
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: HOME_SCREEN_BACKGROUND_COLOR,
-        child: mMovie == null
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : CustomScrollView(
-                slivers: [
-                  MovieDetailsSilverAppBarView(
-                    () => Navigator.pop(context),
-                    movie: mMovie,
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: MARGIN_MEDIUM_2,
+    return ChangeNotifierProvider(
+      create: (context) => MovieDetailBloc(movieId),
+      child: Scaffold(
+        body: Consumer<MovieDetailBloc>(
+          builder: (context, value, child) {
+            return Container(
+              color: HOME_SCREEN_BACKGROUND_COLOR,
+              child: value.mMovie == null
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : CustomScrollView(
+                      slivers: [
+                        MovieDetailsSilverAppBarView(
+                          () => Navigator.pop(context),
+                          movie: value.mMovie,
                         ),
-                        child: TrailerSectionView(
-                          mMovie,
+                        SliverList(
+                          delegate: SliverChildListDelegate([
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: MARGIN_MEDIUM_2,
+                              ),
+                              child: TrailerSectionView(
+                                value.mMovie,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: MARGIN_LARGE,
+                            ),
+                            ActorAndCreatorSectionView(
+                              titleText: MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
+                              seeMoreText: '',
+                              seeMoreButtonVisibility: false,
+                              mActorList: value.mActorsList,
+                            ),
+                            const SizedBox(
+                              height: MARGIN_LARGE,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: MARGIN_MEDIUM_2,
+                              ),
+                              child: AboutFlimSectionView(value.mMovie),
+                            ),
+                            const SizedBox(
+                              height: MARGIN_LARGE,
+                            ),
+                            value.mCreatorsList != null &&
+                                    value.mCreatorsList!.isNotEmpty
+                                ? ActorAndCreatorSectionView(
+                                    titleText:
+                                        MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                                    seeMoreText:
+                                        MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                                    mActorList: value.mCreatorsList,
+                                  )
+                                : const SizedBox(),
+                          ]),
                         ),
-                      ),
-                      const SizedBox(
-                        height: MARGIN_LARGE,
-                      ),
-                      ActorAndCreatorSectionView(
-                        titleText: MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
-                        seeMoreText: '',
-                        seeMoreButtonVisibility: false,
-                        mActorList: mActorsList,
-                      ),
-                      const SizedBox(
-                        height: MARGIN_LARGE,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: MARGIN_MEDIUM_2,
-                        ),
-                        child: AboutFlimSectionView(mMovie),
-                      ),
-                      const SizedBox(
-                        height: MARGIN_LARGE,
-                      ),
-                      mCreatorsList != null && mCreatorsList!.isNotEmpty
-                          ? ActorAndCreatorSectionView(
-                              titleText: MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                              seeMoreText:
-                                  MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
-                              mActorList: mCreatorsList,
-                            )
-                          : const SizedBox(),
-                    ]),
-                  ),
-                ],
-              ),
+                      ],
+                    ),
+            );
+          },
+        ),
       ),
     );
   }
