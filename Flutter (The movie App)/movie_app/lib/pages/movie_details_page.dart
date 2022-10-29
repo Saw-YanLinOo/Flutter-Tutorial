@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/bloc/movie_detail_bloc.dart';
+import 'package:movie_app/data/vos/credit_vo.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/colors.dart';
@@ -21,11 +22,12 @@ class MovieDetailsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MovieDetailBloc(movieId),
       child: Scaffold(
-        body: Consumer<MovieDetailBloc>(
-          builder: (context, value, child) {
+        body: Selector<MovieDetailBloc, MovieVO?>(
+          selector: (context, bloc) => bloc.mMovie,
+          builder: (context, mMovie, child) {
             return Container(
               color: HOME_SCREEN_BACKGROUND_COLOR,
-              child: value.mMovie == null
+              child: mMovie == null
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -33,7 +35,7 @@ class MovieDetailsPage extends StatelessWidget {
                       slivers: [
                         MovieDetailsSilverAppBarView(
                           () => Navigator.pop(context),
-                          movie: value.mMovie,
+                          movie: mMovie,
                         ),
                         SliverList(
                           delegate: SliverChildListDelegate([
@@ -42,17 +44,22 @@ class MovieDetailsPage extends StatelessWidget {
                                 horizontal: MARGIN_MEDIUM_2,
                               ),
                               child: TrailerSectionView(
-                                value.mMovie,
+                                mMovie,
                               ),
                             ),
                             const SizedBox(
                               height: MARGIN_LARGE,
                             ),
-                            ActorAndCreatorSectionView(
-                              titleText: MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
-                              seeMoreText: '',
-                              seeMoreButtonVisibility: false,
-                              mActorList: value.mActorsList,
+                            Selector<MovieDetailBloc, List<CreditVO>?>(
+                              selector: (context, bloc) => bloc.mActorsList,
+                              builder: (context, mActorsList, child) {
+                                return ActorAndCreatorSectionView(
+                                  titleText: MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
+                                  seeMoreText: '',
+                                  seeMoreButtonVisibility: false,
+                                  mActorList: mActorsList,
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: MARGIN_LARGE,
@@ -61,21 +68,26 @@ class MovieDetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: MARGIN_MEDIUM_2,
                               ),
-                              child: AboutFlimSectionView(value.mMovie),
+                              child: AboutFlimSectionView(mMovie),
                             ),
                             const SizedBox(
                               height: MARGIN_LARGE,
                             ),
-                            value.mCreatorsList != null &&
-                                    value.mCreatorsList!.isNotEmpty
-                                ? ActorAndCreatorSectionView(
-                                    titleText:
-                                        MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                                    seeMoreText:
-                                        MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
-                                    mActorList: value.mCreatorsList,
-                                  )
-                                : const SizedBox(),
+                            Selector<MovieDetailBloc, List<CreditVO>?>(
+                              selector: (context, bloc) => bloc.mCreatorsList,
+                              builder: (context, mCreatorsList, child) {
+                                return mCreatorsList != null &&
+                                        mCreatorsList.isNotEmpty
+                                    ? ActorAndCreatorSectionView(
+                                        titleText:
+                                            MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                                        seeMoreText:
+                                            MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                                        mActorList: mCreatorsList,
+                                      )
+                                    : const SizedBox();
+                              },
+                            )
                           ]),
                         ),
                       ],
