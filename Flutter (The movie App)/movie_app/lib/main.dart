@@ -34,7 +34,7 @@ void main() async {
 
   runApp(const MyApp());
 }
-
+// Made presistence layer reactive
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
