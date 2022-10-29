@@ -51,12 +51,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
     }).onError((error) {});
 
-    /// Popular Movies
-    // mMovieModel.getPopularMovies(1).then((movieList) {
-    //   mPopularMoviesList = movieList ?? [];
-    //   setState(() {});
-    // }).catchError((error) {});
-
     /// Popular Movies from database
     mMovieModel.getPopularMoviesFromDatabase().listen((movieList) {
       mPopularMoviesList = movieList ?? [];
