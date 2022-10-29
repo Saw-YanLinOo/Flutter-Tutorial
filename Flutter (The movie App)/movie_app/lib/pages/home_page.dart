@@ -82,12 +82,9 @@ class HomePage extends StatelessWidget {
                   return GenerSectionView(
                     generalList: value.mGenerList,
                     mMoviesByGeneralList: value.mMovieByGenreList,
+                    onTapGenre: value.onTapGenre,
                     onTapMovie: (movieId) =>
                         _navigateToMovieDetailScreen(context, movieId),
-                    onTapGenre: (genreId) {
-                      // debugPrint('genreId :::: $genreId');
-                      value.getMoviesByGenreAndRefresh(genreId ?? 0);
-                    },
                   );
                 }),
                 const SizedBox(

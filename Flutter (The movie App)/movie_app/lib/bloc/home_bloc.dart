@@ -37,7 +37,7 @@ class HomeBloc extends ChangeNotifier {
       notifyListeners();
 
       /// Movies By Genres
-      getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -48,7 +48,7 @@ class HomeBloc extends ChangeNotifier {
       notifyListeners();
 
       /// Movies By Genres
-      getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -72,7 +72,11 @@ class HomeBloc extends ChangeNotifier {
     }).catchError((error) {});
   }
 
-  getMoviesByGenreAndRefresh(int generalId) {
+  onTapGenre(int? generalId) {
+    _getMoviesByGenreAndRefresh(generalId ?? 0);
+  }
+
+  _getMoviesByGenreAndRefresh(int generalId) {
     mMovieModel.getMoviesByGenre(generalId).then((movieList) {
       mMovieByGenreList = movieList ?? [];
       notifyListeners();
