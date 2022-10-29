@@ -8,19 +8,21 @@ import 'package:movie_app/data/vos/genre_vo.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 
 class HomeBloc {
+  /// State
   StreamController<List<MovieVO>?> mNowPlayingMovieListStreamController =
-      StreamController();
+      StreamController<List<MovieVO>?>();
   StreamController<List<MovieVO>?> mPopularMoviesListStreamController =
       StreamController();
   StreamController<List<GenreVO>?> mGenerListStreamController =
-      StreamController();
+      StreamController<List<GenreVO>?>();
   StreamController<List<ActorVO>?> mActorListStreamController =
-      StreamController();
+      StreamController<List<ActorVO>?>();
   StreamController<List<MovieVO>?> mShowCaseMoveListStreamController =
-      StreamController();
+      StreamController<List<MovieVO>?>();
   StreamController<List<MovieVO>?> mMovieByGenreListStreamController =
-      StreamController();
+      StreamController<List<MovieVO>?>();
 
+  // Movie Model
   MovieModel mMovieModel = MovieModelImpl();
 
   HomeBloc() {
@@ -39,7 +41,7 @@ class HomeBloc {
       mGenerListStreamController.sink.add(genreList);
 
       ///🎬 Movies By Genres
-      _getMoviesByGenreAndRefresh(genreList?.first.id ?? 0);
+      getMoviesByGenreAndRefresh(genreList?.first.id ?? 0);
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -49,7 +51,7 @@ class HomeBloc {
       mGenerListStreamController.sink.add(genreList);
 
       ///🎬 Movies By Genres
-      _getMoviesByGenreAndRefresh(genreList?.first.id ?? 0);
+      getMoviesByGenreAndRefresh(genreList?.first.id ?? 0);
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -71,7 +73,7 @@ class HomeBloc {
   }
 
   /// 🎬 Movie List By Genres
-  _getMoviesByGenreAndRefresh(int generalId) {
+  void getMoviesByGenreAndRefresh(int generalId) {
     mMovieModel.getMoviesByGenre(generalId).then((movieList) {
       mMovieByGenreListStreamController.sink.add(movieList);
     }).catchError((error) {});
