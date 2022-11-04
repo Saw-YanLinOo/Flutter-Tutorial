@@ -128,7 +128,11 @@ class MovieVO {
   @HiveField(28)
   bool? isTopRated;
 
+  @HiveField(29)
+  int? index;
+
   MovieVO({
+    this.index,
     this.adult,
     this.backDropPath,
     this.genreIds,
@@ -165,10 +169,8 @@ class MovieVO {
 
   Map<String, dynamic> toJson() => _$MovieVOToJson(this);
 
-  
-
   @override
   String toString() {
-    return 'MovieVO(adult: $adult, backDropPath: $backDropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, budget: $budget, voteCount: $voteCount, belongsToCollection: $belongsToCollection, genres: $genres, homepage: $homepage, imdbid: $imdbid, productionCompany: $productionCompany, productionCountry: $productionCountry, revenue: $revenue, runtime: $runtime, spokenLanguages: $spokenLanguages, status: $status, tagline: $tagline, isNowPlaying: $isNowPlaying, isPopular: $isPopular, isTopRated: $isTopRated)';
+    return 'MovieVO(index: $index, adult: $adult, backDropPath: $backDropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, budget: $budget, voteCount: $voteCount, belongsToCollection: $belongsToCollection, genres: $genres, homepage: $homepage, imdbid: $imdbid, productionCompany: $productionCompany, productionCountry: $productionCountry, revenue: $revenue, runtime: $runtime, spokenLanguages: $spokenLanguages, status: $status, tagline: $tagline, isNowPlaying: $isNowPlaying, isPopular: $isPopular, isTopRated: $isTopRated)';
   }
 }

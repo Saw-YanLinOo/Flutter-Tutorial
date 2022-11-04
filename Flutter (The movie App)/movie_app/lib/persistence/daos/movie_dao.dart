@@ -31,9 +31,10 @@ class MovieDao {
 
   List<MovieVO> getNowPlayingMovies() {
     if (getAllMovies().isNotEmpty) {
-      return getAllMovies()
-          .where((movie) => movie.isNowPlaying ?? false)
-          .toList();
+      var movieList =
+          getAllMovies().where((movie) => movie.isNowPlaying ?? false).toList();
+      movieList.sort((a, b) => a.index?.compareTo(b.index ?? 0) ?? 0);
+      return movieList;
     } else {
       return [];
     }
@@ -41,7 +42,11 @@ class MovieDao {
 
   List<MovieVO> getPopularMovies() {
     if (getAllMovies().isNotEmpty) {
-      return getAllMovies().where((movie) => movie.isPopular ?? false).toList();
+      var movieList =
+          getAllMovies().where((movie) => movie.isPopular ?? false).toList();
+
+      movieList.sort((a, b) => a.index?.compareTo(b.index ?? 0) ?? 0);
+      return movieList;
     } else {
       return [];
     }
@@ -49,9 +54,10 @@ class MovieDao {
 
   List<MovieVO> getTopRatedMovies() {
     if (getAllMovies().isNotEmpty) {
-      return getAllMovies()
-          .where((movie) => movie.isTopRated ?? false)
-          .toList();
+      var movieList =
+          getAllMovies().where((movie) => movie.isTopRated ?? false).toList();
+      movieList.sort((a, b) => a.index?.compareTo(b.index ?? 0) ?? 0);
+      return movieList;
     } else {
       return [];
     }
@@ -63,21 +69,15 @@ class MovieDao {
   }
 
   Stream<List<MovieVO>> getNowPlayingMoviesStream() {
-    return Stream.value(
-      getAllMovies().where((movie) => movie.isNowPlaying ?? false).toList(),
-    );
+    return Stream.value(getNowPlayingMovies());
   }
 
   Stream<List<MovieVO>> getPopularMoviesStream() {
-    return Stream.value(
-      getAllMovies().where((movie) => movie.isPopular ?? false).toList(),
-    );
+    return Stream.value(getPopularMovies());
   }
 
   Stream<List<MovieVO>> getTopRatedMoviesStream() {
-    return Stream.value(
-      getAllMovies().where((movie) => movie.isTopRated ?? false).toList(),
-    );
+    return Stream.value(getTopRatedMovies());
   }
 
   Box<MovieVO> getMovieBox() {

@@ -15,6 +15,8 @@ class HomeBloc extends ChangeNotifier {
   List<MovieVO>? mShowCaseMoveList;
   List<MovieVO>? mMovieByGenreList;
 
+  int pageForNowPlayingMovieList = 1;
+
   //Model
   MovieModel mMovieModel = MovieModelImpl();
 
@@ -74,6 +76,11 @@ class HomeBloc extends ChangeNotifier {
 
   onTapGenre(int? generalId) {
     _getMoviesByGenreAndRefresh(generalId ?? 0);
+  }
+
+  onNowPlayingMovieListReachEnd() {
+    pageForNowPlayingMovieList += 1;
+    mMovieModel.getNowPlayingMovie(pageForNowPlayingMovieList);
   }
 
   _getMoviesByGenreAndRefresh(int generalId) {
