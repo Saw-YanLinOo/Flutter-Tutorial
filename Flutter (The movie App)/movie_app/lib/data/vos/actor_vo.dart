@@ -26,7 +26,7 @@ class ActorVO extends BaseActorVO {
   @JsonKey(name: 'popularity')
   @HiveField(5)
   double? popularity;
-  
+
   ActorVO({
     this.adult,
     this.id,

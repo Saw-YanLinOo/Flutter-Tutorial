@@ -33,7 +33,9 @@ class MovieDetailBloc extends ChangeNotifier {
 
       mCreatorsList =
           creditList?.where((credit) => credit.isCreator()).toList();
-
+      creditList?.forEach((element) {
+        print('${element.toString()}');
+      });
       notifyListeners();
     });
   }
