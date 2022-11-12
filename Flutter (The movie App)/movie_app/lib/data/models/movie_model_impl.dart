@@ -5,9 +5,12 @@ import 'package:movie_app/data/vos/genre_vo.dart';
 import 'package:movie_app/data/vos/actor_vo.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/dataagents/movie_data_agent.dart';
+import 'package:movie_app/persistence/daos/actor_dao.dart';
+import 'package:movie_app/persistence/daos/genre_dao.dart';
 import 'package:movie_app/persistence/daos/impls/actor_dao_impl.dart';
 import 'package:movie_app/persistence/daos/impls/genre_dao_impl.dart';
 import 'package:movie_app/persistence/daos/impls/movie_dao_impl.dart';
+import 'package:movie_app/persistence/daos/movie_dao.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import '../../network/dataagents/retrofit_movie_data_agent_impl.dart';
@@ -24,9 +27,22 @@ class MovieModelImpl extends MovieModel {
   factory MovieModelImpl() => _singleton;
 
   // Daos
-  MovieDaoImpl mMovieDao = MovieDaoImpl();
-  GenreDaoImpl mgenreDao = GenreDaoImpl();
-  ActorDaoImpl mActorDao = ActorDaoImpl();
+  MovieDao mMovieDao = MovieDaoImpl();
+  GenreDao mgenreDao = GenreDaoImpl();
+  ActorDao mActorDao = ActorDaoImpl();
+
+  //For Testing
+  void setDaoAndDataAgent(
+    MovieDao movieDao,
+    GenreDao genreDao,
+    ActorDao actorDao,
+    MovieDataAgent dataAgent,
+  ) {
+    mMovieDao = movieDao;
+    mgenreDao = genreDao;
+    mActorDao = actorDao;
+    mDataAgent = dataAgent;
+  }
 
   // Index
   int size = 20;
@@ -118,11 +134,11 @@ class MovieModelImpl extends MovieModel {
   @override
   Future<MovieVO?> getMovieDetails(int movieId) {
     return mDataAgent.getMovieDetails(movieId).then((movie) {
-      var mMovie = mMovieDao.getMovieById(movieId);
-      movie?.index = mMovie?.index;
-      movie?.isNowPlaying = mMovie?.isNowPlaying;
-      movie?.isPopular = mMovie?.isPopular;
-      movie?.isTopRated = mMovie?.isTopRated;
+      // var mMovie = mMovieDao.getMovieById(movieId);
+      // movie?.index = mMovie?.index;
+      // movie?.isNowPlaying = mMovie?.isNowPlaying;
+      // movie?.isPopular = mMovie?.isPopular;
+      // movie?.isTopRated = mMovie?.isTopRated;
 
       mMovieDao.saveSingleMovie(movie);
       return movie;

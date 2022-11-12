@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,10 +14,10 @@ part 'movie_vo.g.dart';
 
 @JsonSerializable()
 @HiveType(typeId: HIVE_TYPE_ID_MOVIE_VO, adapterName: 'MovieVOAdapter')
-class MovieVO {
+class MovieVO extends Equatable {
   @JsonKey(name: 'adult')
   @HiveField(0)
-  bool? adult;
+  final bool? adult;
 
   @JsonKey(name: 'back_drop_path')
   @HiveField(1)
@@ -170,7 +170,41 @@ class MovieVO {
   Map<String, dynamic> toJson() => _$MovieVOToJson(this);
 
   @override
-  String toString() {
-    return 'MovieVO(index: $index, adult: $adult, backDropPath: $backDropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, budget: $budget, voteCount: $voteCount, belongsToCollection: $belongsToCollection, genres: $genres, homepage: $homepage, imdbid: $imdbid, productionCompany: $productionCompany, productionCountry: $productionCountry, revenue: $revenue, runtime: $runtime, spokenLanguages: $spokenLanguages, status: $status, tagline: $tagline, isNowPlaying: $isNowPlaying, isPopular: $isPopular, isTopRated: $isTopRated)';
+  List<Object?> get props {
+    return [
+      adult,
+      backDropPath,
+      genreIds,
+      id,
+      originalLanguage,
+      originalTitle,
+      overview,
+      popularity,
+      posterPath,
+      releaseDate,
+      title,
+      video,
+      voteAverage,
+      budget,
+      voteCount,
+      belongsToCollection,
+      genres,
+      homepage,
+      imdbid,
+      productionCompany,
+      productionCountry,
+      revenue,
+      runtime,
+      spokenLanguages,
+      status,
+      tagline,
+      isNowPlaying,
+      isPopular,
+      isTopRated,
+      index,
+    ];
   }
+
+  @override
+  bool get stringify => true;
 }

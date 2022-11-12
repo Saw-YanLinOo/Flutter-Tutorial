@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movie_app/data/vos/base_actor_vo.dart';
 
+import 'package:movie_app/data/vos/base_actor_vo.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/persistence/hive_constants.dart';
 
@@ -44,4 +46,22 @@ class ActorVO extends BaseActorVO {
 
   @override
   Map<String, dynamic> toJson() => _$ActorVOToJson(this);
+
+  @override
+  bool operator ==(covariant ActorVO other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.adult == adult &&
+        listEquals(other.knownFor, knownFor) &&
+        other.popularity == popularity;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        adult.hashCode ^
+        knownFor.hashCode ^
+        popularity.hashCode;
+  }
 }
