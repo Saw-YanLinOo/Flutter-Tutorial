@@ -39,12 +39,16 @@ class MovieModelImplMocke extends MovieModel {
 
   @override
   Future<MovieVO?> getMovieDetailsFromDatabase(int movieId) {
-     return Future.value(getMockMoviesForTest().first);
+    return Future.value(getMockMoviesForTest().first);
   }
 
   @override
   Future<List<MovieVO>?> getMoviesByGenre(int genreId) {
-     return Future.value(getMockMoviesForTest());
+    if (genreId == 3) {
+      return Future.value([getMockMoviesForTest().last]);
+    } else {
+      return Future.value([getMockMoviesForTest().first]);
+    }
   }
 
   @override
@@ -54,8 +58,11 @@ class MovieModelImplMocke extends MovieModel {
 
   @override
   Stream<List<MovieVO>?> getNowPlayingMoviesFromDatabase() {
-    // TODO: implement getNowPlayingMoviesFromDatabase
-    throw UnimplementedError();
+    return Stream.value(
+      getMockMoviesForTest()
+          .where((element) => element.isNowPlaying ?? false)
+          .toList(),
+    );
   }
 
   @override
@@ -65,8 +72,11 @@ class MovieModelImplMocke extends MovieModel {
 
   @override
   Stream<List<MovieVO>?> getPopularMoviesFromDatabase() {
-    // TODO: implement getPopularMoviesFromDatabase
-    throw UnimplementedError();
+    return Stream.value(
+      getMockMoviesForTest()
+          .where((element) => element.isPopular ?? false)
+          .toList(),
+    );
   }
 
   @override
@@ -76,7 +86,10 @@ class MovieModelImplMocke extends MovieModel {
 
   @override
   Stream<List<MovieVO>?> getTopRatedMoviesFromDatabase() {
-    // TODO: implement getTopRatedMoviesFromDatabase
-    throw UnimplementedError();
+    return Stream.value(
+      getMockMoviesForTest()
+          .where((element) => element.isTopRated ?? false)
+          .toList(),
+    );
   }
 }
