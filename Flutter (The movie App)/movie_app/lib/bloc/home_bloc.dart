@@ -44,7 +44,9 @@ class HomeBloc extends ChangeNotifier {
       notifyListeners();
 
       /// Movies By Genres
-      _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      if (genreList?.isNotEmpty ?? false) {
+        _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      }
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
