@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_components/custom_layouts/custom_football_layout.dart';
 import 'package:flutter_custom_components/custom_painter/custom_painter_demo.dart';
 
 void main() {
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: const CustomPinterDemo(),
+        body: SafeArea(
+          //child:CustomPinterDemo(),
+          child: CustomFootballLayout(),
+        ),
       ),
     );
   }
