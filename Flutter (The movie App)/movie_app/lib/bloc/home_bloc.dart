@@ -20,7 +20,12 @@ class HomeBloc extends ChangeNotifier {
   //Model
   MovieModel mMovieModel = MovieModelImpl();
 
-  HomeBloc() {
+  HomeBloc({MovieModel? movieModel}) {
+    // Set Mock model for Test Data
+    if (movieModel != null) {
+      mMovieModel = movieModel;
+    }
+
     /// Now Playing Movies from database
     mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
       mNowPlayingMovieList = movieList ?? [];

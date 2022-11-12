@@ -14,7 +14,11 @@ class MovieDetailBloc extends ChangeNotifier {
   // Movie Model
   MovieModel mMovieModel = MovieModelImpl();
 
-  MovieDetailBloc(int movieId) {
+  MovieDetailBloc(int movieId, {MovieModel? movieModel}) {
+    //Set up movie model mock for test
+    if (movieModel != null) {
+      mMovieModel = movieModel;
+    }
     // Movie Details
     mMovieModel.getMovieDetails(movieId).then((movie) {
       mMovie = movie;

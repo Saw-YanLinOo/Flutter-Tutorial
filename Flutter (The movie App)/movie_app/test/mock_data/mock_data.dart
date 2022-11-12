@@ -200,7 +200,7 @@ List<CreditVO> getMockCredits() {
       adult: false,
       gender: 1,
       id: 3383606,
-      konwnForDepartment: "Acting",
+      konwnForDepartment: "Creating",
       name: "Sarah Voigt",
       originalName: "Sarah Voigt",
       profilePath: null,
