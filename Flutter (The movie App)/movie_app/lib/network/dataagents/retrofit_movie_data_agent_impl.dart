@@ -20,14 +20,14 @@ class RetrofitDataAgentImpl extends MovieDataAgent {
 
   RetrofitDataAgentImpl._internal() {
     final dio = Dio();
-    dio.interceptors.add(
-      CustomLogInterceptor(
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: false,
-        responseBody: true,
-      ),
-    );
+    // dio.interceptors.add(
+    //   CustomLogInterceptor(
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseHeader: false,
+    //     responseBody: true,
+    //   ),
+    // );
 
     mApi = TheMovieApi(dio);
   }

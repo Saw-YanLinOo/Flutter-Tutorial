@@ -22,7 +22,9 @@ class MovieDetailBloc extends ChangeNotifier {
     // Movie Details
     mMovieModel.getMovieDetails(movieId).then((movie) {
       mMovie = movie;
-      _getRelatedMovieByGenreId(movie?.genres?.first.id ?? 0);
+      if (movie?.genres?.isNotEmpty ?? false) {
+        _getRelatedMovieByGenreId(movie?.genres?.first.id ?? 0);
+      }
       notifyListeners();
     });
 
@@ -37,9 +39,7 @@ class MovieDetailBloc extends ChangeNotifier {
 
       mCreatorsList =
           creditList?.where((credit) => credit.isCreator()).toList();
-      creditList?.forEach((element) {
-        print('${element.toString()}');
-      });
+
       notifyListeners();
     });
   }
