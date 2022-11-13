@@ -22,9 +22,9 @@ class MovieDetailBloc extends ChangeNotifier {
     // Movie Details
     mMovieModel.getMovieDetails(movieId).then((movie) {
       mMovie = movie;
-      if (movie?.genres?.isNotEmpty ?? false) {
+      // if (movie?.genres?.isNotEmpty ?? false) {
         _getRelatedMovieByGenreId(movie?.genres?.first.id ?? 0);
-      }
+      // }
       notifyListeners();
     });
 

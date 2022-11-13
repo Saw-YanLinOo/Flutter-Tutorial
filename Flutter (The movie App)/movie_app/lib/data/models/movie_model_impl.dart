@@ -134,11 +134,13 @@ class MovieModelImpl extends MovieModel {
   @override
   Future<MovieVO?> getMovieDetails(int movieId) {
     return mDataAgent.getMovieDetails(movieId).then((movie) {
-      // var mMovie = mMovieDao.getMovieById(movieId);
-      // movie?.index = mMovie?.index;
-      // movie?.isNowPlaying = mMovie?.isNowPlaying;
-      // movie?.isPopular = mMovie?.isPopular;
-      // movie?.isTopRated = mMovie?.isTopRated;
+      var mMovie = mMovieDao.getMovieById(movieId);
+      if(mMovie != null){
+        movie?.index = mMovie.index;
+      movie?.isNowPlaying = mMovie.isNowPlaying;
+      movie?.isPopular = mMovie.isPopular;
+      movie?.isTopRated = mMovie.isTopRated;
+      }
 
       mMovieDao.saveSingleMovie(movie);
       return movie;

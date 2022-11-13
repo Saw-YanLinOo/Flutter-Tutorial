@@ -18,9 +18,13 @@ class MovieDaoImplMock extends MovieDao {
 
   @override
   MovieVO? getMovieById(int movieId) {
-    return movieListFromDatabaseMock.values
-        .toList()
-        .firstWhere((movie) => movie.id == movieId);
+
+    var movieList = movieListFromDatabaseMock.values.toList().where((element) => element.id == movieId).toList();
+
+    if(movieList != null && movieList.isNotEmpty){
+      return movieList.first;
+    }
+    return null;
   }
 
   @override
