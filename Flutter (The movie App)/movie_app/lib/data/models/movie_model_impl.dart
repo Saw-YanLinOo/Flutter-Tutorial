@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:movie_app/data/models/movie_model.dart';
 import 'package:movie_app/data/vos/credit_vo.dart';
 import 'package:movie_app/data/vos/genre_vo.dart';
@@ -6,6 +7,9 @@ import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/dataagents/movie_data_agent.dart';
 import 'package:movie_app/persistence/daos/actor_dao.dart';
 import 'package:movie_app/persistence/daos/genre_dao.dart';
+import 'package:movie_app/persistence/daos/impls/actor_dao_impl.dart';
+import 'package:movie_app/persistence/daos/impls/genre_dao_impl.dart';
+import 'package:movie_app/persistence/daos/impls/movie_dao_impl.dart';
 import 'package:movie_app/persistence/daos/movie_dao.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -23,14 +27,34 @@ class MovieModelImpl extends MovieModel {
   factory MovieModelImpl() => _singleton;
 
   // Daos
-  MovieDao mMovieDao = MovieDao();
-  GenreDao mgenreDao = GenreDao();
-  ActorDao mActorDao = ActorDao();
+  MovieDao mMovieDao = MovieDaoImpl();
+  GenreDao mgenreDao = GenreDaoImpl();
+  ActorDao mActorDao = ActorDaoImpl();
+
+  //For Testing
+  void setDaoAndDataAgent(
+    MovieDao movieDao,
+    GenreDao genreDao,
+    ActorDao actorDao,
+    MovieDataAgent dataAgent,
+  ) {
+    mMovieDao = movieDao;
+    mgenreDao = genreDao;
+    mActorDao = actorDao;
+    mDataAgent = dataAgent;
+  }
+
+  // Index
+  int size = 20;
 
   @override
   void getNowPlayingMovie(int page) {
+    int index = (page - 1) * size;
+
     mDataAgent.getNowPlayingMovie(page).then((movies) async {
       List<MovieVO>? nowPlayingMovies = movies?.map((movie) {
+        movie.index = index;
+        index++;
         movie.isNowPlaying = true;
         movie.isPopular = false;
         movie.isTopRated = false;
@@ -66,8 +90,12 @@ class MovieModelImpl extends MovieModel {
 
   @override
   void getPopularMovies(int page) {
+    int index = (page - 1) * size;
+
     mDataAgent.getPopularMovies(page).then((movies) async {
       List<MovieVO>? popularMovies = movies?.map((movie) {
+        movie.index = index;
+        index++;
         movie.isNowPlaying = false;
         movie.isPopular = true;
         movie.isTopRated = false;
@@ -81,8 +109,12 @@ class MovieModelImpl extends MovieModel {
 
   @override
   void getTopRatedMovies(int page) {
+    int index = (page - 1) * size;
+
     mDataAgent.getTopRatedMovies(page).then((movies) async {
       List<MovieVO>? topRatedMovies = movies?.map((movie) {
+        movie.index = index;
+        index++;
         movie.isNowPlaying = false;
         movie.isPopular = false;
         movie.isTopRated = true;
@@ -103,12 +135,14 @@ class MovieModelImpl extends MovieModel {
   Future<MovieVO?> getMovieDetails(int movieId) {
     return mDataAgent.getMovieDetails(movieId).then((movie) {
       var mMovie = mMovieDao.getMovieById(movieId);
+      if(mMovie != null){
+        movie?.index = mMovie.index;
+      movie?.isNowPlaying = mMovie.isNowPlaying;
+      movie?.isPopular = mMovie.isPopular;
+      movie?.isTopRated = mMovie.isTopRated;
+      }
 
-      movie?.isNowPlaying = mMovie?.isNowPlaying;
-      movie?.isPopular = mMovie?.isPopular;
-      movie?.isTopRated = mMovie?.isTopRated;
-
-      mMovieDao.saveSingleMovie(movie ?? MovieVO());
+      mMovieDao.saveSingleMovie(movie);
       return movie;
     });
   }
@@ -134,7 +168,7 @@ class MovieModelImpl extends MovieModel {
     getNowPlayingMovie(1);
     return mMovieDao
         .getAllMoviesEventStream()
-        .startWith(mMovieDao.getNowPlayingMovies())
+        .startWith(mMovieDao.getNowPlayingMoviesStream())
         .map((event) => mMovieDao.getNowPlayingMovies());
   }
 
@@ -143,6 +177,7 @@ class MovieModelImpl extends MovieModel {
     getPopularMovies(1);
     return mMovieDao
         .getAllMoviesEventStream()
+        .startWith(mMovieDao.getPopularMoviesStream())
         .map((event) => mMovieDao.getPopularMovies());
   }
 
@@ -151,6 +186,7 @@ class MovieModelImpl extends MovieModel {
     getTopRatedMovies(1);
     return mMovieDao
         .getAllMoviesEventStream()
+        .startWith(mMovieDao.getTopRatedMoviesStream())
         .map((event) => mMovieDao.getTopRatedMovies());
   }
 }

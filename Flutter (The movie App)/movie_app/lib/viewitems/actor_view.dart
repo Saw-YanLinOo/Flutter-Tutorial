@@ -112,13 +112,13 @@ class ActorNameAndLikeView extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 SizedBox(
-                  width: MARGIN_MEDIUM,
+                  width: MRAGIN_SMALL,
                 ),
                 Text(
                   'you like $likeCount MOVIES ',
                   style: TextStyle(
                     color: HOME_SCREEN_LIST_TITLE_COLOR,
-                    fontSize: 10,
+                    fontSize: TEXT_SMALL,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -8,6 +8,7 @@ const MARGIN_LARGE = 24.0;
 const MARGIN_XL_LARGE = 32.0;
 const MARGIN_XXL_LARGE = 48.0;
 
+const TEXT_SMALL = 9.0;
 const TEXT_REGULAR = 14.0;
 const TEXT_REGULAG_2X = 16.0;
 const TEXT_REGULAG_3X = 20.0;

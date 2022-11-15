@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:movie_app/data/vos/actor_vo.dart';
 import 'package:movie_app/data/vos/credit_vo.dart';
 import 'package:movie_app/data/vos/genre_vo.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
+import 'package:movie_app/network/custom_log_interceptor.dart';
 import 'package:movie_app/network/dataagents/movie_data_agent.dart';
 import 'package:movie_app/network/the_movie_api.dart';
 
@@ -20,6 +20,15 @@ class RetrofitDataAgentImpl extends MovieDataAgent {
 
   RetrofitDataAgentImpl._internal() {
     final dio = Dio();
+    // dio.interceptors.add(
+    //   CustomLogInterceptor(
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseHeader: false,
+    //     responseBody: true,
+    //   ),
+    // );
+
     mApi = TheMovieApi(dio);
   }
 
@@ -54,9 +63,7 @@ class RetrofitDataAgentImpl extends MovieDataAgent {
   Future<List<MovieVO>?> getMoviesByGenre(int genreId) {
     mApi
         .getMovieByGenre(genreId.toString(), API_KEY, LANGUAGE_EN_US)
-        .then((value) {
-      debugPrint('movieList :::: ${value.items}');
-    });
+        .then((value) {});
 
     return mApi
         .getMovieByGenre(genreId.toString(), API_KEY, LANGUAGE_EN_US)

@@ -9,6 +9,7 @@ import 'package:movie_app/resources/string.dart';
 import 'package:movie_app/widgets/actor_and_creater_section_view.dart';
 import 'package:movie_app/widgets/gradient_view.dart';
 import 'package:movie_app/widgets/rating_view.dart';
+import 'package:movie_app/widgets/title_and_horizontal_movie_list_view.dart';
 import 'package:movie_app/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 
@@ -87,6 +88,23 @@ class MovieDetailsPage extends StatelessWidget {
                                       )
                                     : const SizedBox();
                               },
+                            ),
+                            Selector<MovieDetailBloc, List<MovieVO>?>(
+                              selector: (context, bloc) =>
+                                  bloc.mRelatedMovieList,
+                              builder: (context, relatedMovieList, child) {
+                                return TitleAndHorizontalMovieListView(
+                                  mMovieList: relatedMovieList,
+                                  title: MOVIE_DETAILS_SCREEN_RELEATED_MOVIE,
+                                  (movieId) {
+                                    _navigateToMovieDetailScreen(
+                                      context,
+                                      movieId,
+                                    );
+                                  },
+                                  onReachListEnd: (){},
+                                );
+                              },
                             )
                           ]),
                         ),
@@ -94,6 +112,17 @@ class MovieDetailsPage extends StatelessWidget {
                     ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  void _navigateToMovieDetailScreen(BuildContext context, int? movieId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MovieDetailsPage(
+          movieId: movieId ?? 0,
         ),
       ),
     );

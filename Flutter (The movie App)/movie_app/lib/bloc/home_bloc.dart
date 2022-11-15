@@ -15,13 +15,24 @@ class HomeBloc extends ChangeNotifier {
   List<MovieVO>? mShowCaseMoveList;
   List<MovieVO>? mMovieByGenreList;
 
+  int pageForNowPlayingMovieList = 1;
+
   //Model
   MovieModel mMovieModel = MovieModelImpl();
 
-  HomeBloc() {
+  HomeBloc({MovieModel? movieModel}) {
+    // Set Mock model for Test Data
+    if (movieModel != null) {
+      mMovieModel = movieModel;
+    }
+
     /// Now Playing Movies from database
     mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
       mNowPlayingMovieList = movieList ?? [];
+
+      if (mNowPlayingMovieList?.isNotEmpty ?? false) {
+        mNowPlayingMovieList?.sort((a, b) => a.id ?? 0 - (b.id ?? 0));
+      }
       notifyListeners();
     }).onError((error) {});
 
@@ -37,7 +48,9 @@ class HomeBloc extends ChangeNotifier {
       notifyListeners();
 
       /// Movies By Genres
-      _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      if (genreList?.isNotEmpty ?? false) {
+        _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      }
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -48,7 +61,9 @@ class HomeBloc extends ChangeNotifier {
       notifyListeners();
 
       /// Movies By Genres
-      _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      if (genreList?.isNotEmpty ?? false) {
+        _getMoviesByGenreAndRefresh(mGenerList?.first.id ?? 0);
+      }
     }).catchError((error) {
       debugPrint('error:::::: $error');
     });
@@ -74,6 +89,11 @@ class HomeBloc extends ChangeNotifier {
 
   onTapGenre(int? generalId) {
     _getMoviesByGenreAndRefresh(generalId ?? 0);
+  }
+
+  onNowPlayingMovieListReachEnd() {
+    pageForNowPlayingMovieList += 1;
+    mMovieModel.getNowPlayingMovie(pageForNowPlayingMovieList);
   }
 
   _getMoviesByGenreAndRefresh(int generalId) {

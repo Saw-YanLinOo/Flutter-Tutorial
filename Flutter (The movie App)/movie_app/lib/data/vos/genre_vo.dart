@@ -1,13 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:movie_app/persistence/hive_constants.dart';
 
 part 'genre_vo.g.dart';
 
 @JsonSerializable()
 @HiveType(typeId: HIVE_TYPE_ID_GENRE_VO, adapterName: 'GenreVOAdapter')
-class GenreVO {
+class GenreVO extends Equatable {
   @JsonKey(name: 'id')
   @HiveField(0)
   int? id;
@@ -23,4 +25,7 @@ class GenreVO {
       _$GenreVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$GenreVOToJson(this);
+
+  @override
+  List<Object?> get props => [id, name];
 }

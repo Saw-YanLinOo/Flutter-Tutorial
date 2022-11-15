@@ -17,6 +17,7 @@ class MovieVOAdapter extends TypeAdapter<MovieVO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MovieVO(
+      index: fields[29] as int?,
       adult: fields[0] as bool?,
       backDropPath: fields[1] as String?,
       genreIds: (fields[2] as List?)?.cast<int>(),
@@ -43,13 +44,16 @@ class MovieVOAdapter extends TypeAdapter<MovieVO> {
       spokenLanguages: (fields[23] as List?)?.cast<SpokenLanguageVO>(),
       status: fields[24] as String?,
       tagline: fields[25] as String?,
+      isNowPlaying: fields[26] as bool?,
+      isPopular: fields[27] as bool?,
+      isTopRated: fields[28] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieVO obj) {
     writer
-      ..writeByte(26)
+      ..writeByte(30)
       ..writeByte(0)
       ..write(obj.adult)
       ..writeByte(1)
@@ -101,7 +105,15 @@ class MovieVOAdapter extends TypeAdapter<MovieVO> {
       ..writeByte(24)
       ..write(obj.status)
       ..writeByte(25)
-      ..write(obj.tagline);
+      ..write(obj.tagline)
+      ..writeByte(26)
+      ..write(obj.isNowPlaying)
+      ..writeByte(27)
+      ..write(obj.isPopular)
+      ..writeByte(28)
+      ..write(obj.isTopRated)
+      ..writeByte(29)
+      ..write(obj.index);
   }
 
   @override
@@ -120,6 +132,7 @@ class MovieVOAdapter extends TypeAdapter<MovieVO> {
 // **************************************************************************
 
 MovieVO _$MovieVOFromJson(Map<String, dynamic> json) => MovieVO(
+      index: json['index'] as int?,
       adult: json['adult'] as bool?,
       backDropPath: json['back_drop_path'] as String?,
       genreIds:
@@ -160,6 +173,9 @@ MovieVO _$MovieVOFromJson(Map<String, dynamic> json) => MovieVO(
           .toList(),
       status: json['status'] as String?,
       tagline: json['tagline'] as String?,
+      isNowPlaying: json['isNowPlaying'] as bool?,
+      isPopular: json['isPopular'] as bool?,
+      isTopRated: json['isTopRated'] as bool?,
     );
 
 Map<String, dynamic> _$MovieVOToJson(MovieVO instance) => <String, dynamic>{
@@ -189,4 +205,8 @@ Map<String, dynamic> _$MovieVOToJson(MovieVO instance) => <String, dynamic>{
       'spoken_languages': instance.spokenLanguages,
       'status': instance.status,
       'tagline': instance.tagline,
+      'isNowPlaying': instance.isNowPlaying,
+      'isPopular': instance.isPopular,
+      'isTopRated': instance.isTopRated,
+      'index': instance.index,
     };

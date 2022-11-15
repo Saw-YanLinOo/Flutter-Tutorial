@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:movie_app/data/vos/base_actor_vo.dart';
 import 'package:movie_app/persistence/hive_constants.dart';
 
@@ -78,6 +79,34 @@ class CreditVO extends BaseActorVO {
 
   bool isCreator() {
     return konwnForDepartment != KNOWNFORDEPARTMENT;
+  }
+
+  @override
+  bool operator ==(covariant CreditVO other) {
+    if (identical(this, other)) return true;
+
+    return other.adult == adult &&
+        other.gender == gender &&
+        other.id == id &&
+        other.konwnForDepartment == konwnForDepartment &&
+        other.originalName == originalName &&
+        other.castId == castId &&
+        other.character == character &&
+        other.creditId == creditId &&
+        other.order == order;
+  }
+
+  @override
+  int get hashCode {
+    return adult.hashCode ^
+        gender.hashCode ^
+        id.hashCode ^
+        konwnForDepartment.hashCode ^
+        originalName.hashCode ^
+        castId.hashCode ^
+        character.hashCode ^
+        creditId.hashCode ^
+        order.hashCode;
   }
 }
 
