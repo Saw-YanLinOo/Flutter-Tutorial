@@ -1,3 +1,6 @@
 [submodule "movie-booking-application-with-clean-ui-ux"]
 	path = movie-booking-application-with-clean-ui-ux
 	url = https://github.com/Saw-YanLinOo/movie-booking-application-with-clean-ui-ux.git
+[submodule "book-library-application"]
+	path = book-library-application
+	url = https://github.com/Saw-YanLinOo/book-library-application
