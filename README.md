@@ -1,2 +1,2 @@
 # Flutter Tutorial
- Flutter tutorial and assignment
+ Flutter project and tutorial list 🌈
