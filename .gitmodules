@@ -4,3 +4,6 @@
 [submodule "book-library-application"]
 	path = book-library-application
 	url = https://github.com/Saw-YanLinOo/book-library-application
+[submodule "movie-application"]
+	path = movie-application
+	url = https://github.com/Saw-YanLinOo/movie-application.git
