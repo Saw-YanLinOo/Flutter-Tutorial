@@ -9,11 +9,9 @@ import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/resources/string.dart';
 import 'package:movie_app/viewitems/banner_view.dart';
-import 'package:movie_app/viewitems/movie_view.dart';
 import 'package:movie_app/viewitems/show_case_view.dart';
 import 'package:movie_app/widgets/see_more_text.dart';
 import 'package:movie_app/widgets/title_and_horizontal_movie_list_view.dart';
-import 'package:movie_app/widgets/title_text.dart';
 import 'package:movie_app/widgets/title_text_with_see_more_view.dart';
 import 'package:provider/provider.dart';
 
